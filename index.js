@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 3001;
 
-const persons = [
+let persons = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -26,7 +26,7 @@ const persons = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hola mundo!");
+  res.send("Phonebook");
 });
 
 app.get("/api/persons", (req, res) => {
@@ -49,6 +49,13 @@ app.get("/info", (req, res) => {
     <p>Phonebook has info for ${numberOfPersons} people</p>
     <p>${date}</p>
     `);
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  persons = persons.filter((person) => person.id !== id);
+
+  res.status(204).end();
 });
 
 app.listen(PORT, () => {
