@@ -28,7 +28,12 @@ let persons = [
 ];
 
 app.use(express.json());
-app.use(morgan("tiny"));
+
+//app.use(morgan("tiny"));
+morgan.token("customBody", function (req, res) {
+  if (req.method === "POST") return JSON.stringify({ name: req.body.name, number: req.body.number });
+});
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :customBody"));
 
 app.get("/", (req, res) => {
   res.send("Phonebook");
