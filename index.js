@@ -39,7 +39,7 @@ app.get("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
   const person = persons.find((person) => person.id === id);
 
-  if (!person) res.status(404).end();
+  if (!person) return res.status(404).end();
 
   res.json(person);
 });
@@ -54,8 +54,16 @@ app.get("/info", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-  const id = Math.floor(Math.random() * 1000000000);
   const person = req.body;
+
+  if (!person.name) return res.status(400).json({ error: "name is missing" });
+
+  if (!person.number) return res.status(400).json({ error: "number is missing" });
+
+  const duplicateName = persons.some((el) => el.name === person.name);
+  if (duplicateName) return res.status(400).json({ error: "name must be unique" });
+
+  const id = Math.floor(Math.random() * 1000000000);
   person.id = id;
 
   persons = persons.concat(person);

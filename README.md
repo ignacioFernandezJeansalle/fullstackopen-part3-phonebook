@@ -13,7 +13,7 @@ Nos acercamos al backend, es decir, hacia la implementación de la funcionalidad
 - [x] 3.3 => a: Node.js y Express
 - [x] 3.4 => a: Node.js y Express
 - [x] 3.5 => a: Node.js y Express
-- [ ] 3.6 => a: Node.js y Express
+- [x] 3.6 => a: Node.js y Express
 - [ ] 3.7 => a: Node.js y Express
 - [ ] 3.8 => a: Node.js y Express
 - [ ] 3.9 => b: Despliegue de la aplicación a Internet

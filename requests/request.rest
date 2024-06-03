@@ -15,5 +15,13 @@ content-type: application/json
   "number": "011-68837680"
 }
 
+### Bad request
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ignacio Fernández"
+}
+
 ###
 DELETE http://localhost:3001/api/persons/2
