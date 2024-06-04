@@ -16,7 +16,7 @@ Nos acercamos al backend, es decir, hacia la implementación de la funcionalidad
 - [x] 3.6 => a: Node.js y Express
 - [x] 3.7 => a: Node.js y Express
 - [x] 3.8 => a: Node.js y Express
-- [ ] 3.9 => b: Despliegue de la aplicación a Internet
+- [x] 3.9 => b: Despliegue de la aplicación a Internet
 - [ ] 3.10 => b: Despliegue de la aplicación a Internet
 - [ ] 3.11 => b: Despliegue de la aplicación a Internet
 - [ ] 3.12 => c: Guardando datos en MondoDB

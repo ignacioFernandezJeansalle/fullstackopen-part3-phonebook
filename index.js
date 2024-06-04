@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3001;
 
 const morgan = require("morgan");
+const cors = require("cors");
 
 let persons = [
   {
@@ -28,6 +29,7 @@ let persons = [
 ];
 
 app.use(express.json());
+app.use(cors());
 
 //app.use(morgan("tiny"));
 morgan.token("customBody", function (req, res) {
@@ -80,9 +82,11 @@ app.post("/api/persons", (req, res) => {
 
 app.delete("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
+
+  personToDelete = persons.find((person) => person.id === id);
   persons = persons.filter((person) => person.id !== id);
 
-  res.status(204).end();
+  res.json(personToDelete);
 });
 
 app.listen(PORT, () => {
