@@ -1,0 +1,27 @@
+GET https://fullstackopen-backend-phonebook.onrender.com/api/persons
+
+###
+GET https://fullstackopen-backend-phonebook.onrender.com/api/persons/1
+
+###
+GET https://fullstackopen-backend-phonebook.onrender.com/info
+
+###
+POST https://fullstackopen-backend-phonebook.onrender.com/api/persons HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ignacio Fernández",
+  "number": "011-68837680"
+}
+
+### Bad request
+POST https://fullstackopen-backend-phonebook.onrender.com/api/persons HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Ignacio Fernández"
+}
+
+###
+DELETE https://fullstackopen-backend-phonebook.onrender.com/api/persons/1
