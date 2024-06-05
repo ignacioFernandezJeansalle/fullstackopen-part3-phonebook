@@ -22,7 +22,7 @@ Nos acercamos al backend, es decir, hacia la implementación de la funcionalidad
 Web service phonebook => https://fullstackopen-backend-phonebook.onrender.com/
 
 - [x] 3.11 => b: Despliegue de la aplicación a Internet
-- [ ] 3.12 => c: Guardando datos en MondoDB
+- [x] 3.12 => c: Guardando datos en MondoDB
 - [ ] 3.13 => c: Guardando datos en MondoDB
 - [ ] 3.14 => c: Guardando datos en MondoDB
 - [ ] 3.15 => c: Guardando datos en MondoDB
