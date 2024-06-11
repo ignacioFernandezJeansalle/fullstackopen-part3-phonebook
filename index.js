@@ -53,11 +53,7 @@ app
     const person = req.body;
 
     if (!person.name) return res.status(400).json({ error: "name is missing" });
-
     if (!person.number) return res.status(400).json({ error: "number is missing" });
-
-    /* const duplicateName = persons.some((el) => el.name === person.name);
-  if (duplicateName) return res.status(400).json({ error: "name must be unique" }); */
 
     const newPerson = new Person(person);
 
@@ -82,9 +78,8 @@ app
   .put((req, res, next) => {
     const id = req.params.id;
     const { name, number } = req.body;
-    const updatePerson = { number };
 
-    Person.findByIdAndUpdate(id, updatePerson, { new: true })
+    Person.findByIdAndUpdate(id, { name, number }, { new: true, runValidators: true, context: "query" })
       .then((updatedPerson) => res.json(updatedPerson))
       .catch((error) => next(error));
   })
@@ -110,9 +105,9 @@ app.get("/info", (req, res) => {
 const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
-  if (error.name === "CastError") {
-    return res.status(400).send({ error: "Malformatted id" });
-  }
+  if (error.name === "CastError") return res.status(400).send({ error: "Malformatted id" });
+
+  if (error.name === "ValidationError") return res.status(400).json({ error: error.message });
 
   next(error);
 };
