@@ -40,8 +40,10 @@ morgan.token("customBody", function (req, res) {
 });
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :customBody"));
 
-app.get("/api/persons", (req, res) => {
-  Person.find({}).then((persons) => res.json(persons));
+app.get("/api/persons", (req, res, next) => {
+  Person.find({})
+    .then((persons) => res.json(persons))
+    .catch((error) => next(error));
 });
 
 app.get("/api/persons/:id", (req, res) => {
@@ -62,7 +64,7 @@ app.get("/info", (req, res) => {
     `);
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const person = req.body;
 
   if (!person.name) return res.status(400).json({ error: "name is missing" });
@@ -74,7 +76,10 @@ app.post("/api/persons", (req, res) => {
 
   const newPerson = new Person(person);
 
-  newPerson.save().then((person) => res.json(person));
+  newPerson
+    .save()
+    .then((person) => res.json(person))
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (req, res, next) => {
@@ -84,6 +89,18 @@ app.delete("/api/persons/:id", (req, res, next) => {
     .then((deletedPerson) => res.json(deletedPerson))
     .catch((error) => next(error));
 });
+
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "Malformatted id" });
+  }
+
+  next(error);
+};
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
