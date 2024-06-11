@@ -69,14 +69,12 @@ app.post("/api/persons", (req, res) => {
 
   if (!person.number) return res.status(400).json({ error: "number is missing" });
 
-  const duplicateName = persons.some((el) => el.name === person.name);
-  if (duplicateName) return res.status(400).json({ error: "name must be unique" });
+  /* const duplicateName = persons.some((el) => el.name === person.name);
+  if (duplicateName) return res.status(400).json({ error: "name must be unique" }); */
 
-  const id = Math.floor(Math.random() * 1000000000);
-  person.id = id;
+  const newPerson = new Person(person);
 
-  persons = persons.concat(person);
-  res.json(person);
+  newPerson.save().then((person) => res.json(person));
 });
 
 app.delete("/api/persons/:id", (req, res) => {
