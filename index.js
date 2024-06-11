@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
+const Person = require("./models/person");
 
 const morgan = require("morgan");
 const cors = require("cors");
@@ -39,7 +41,7 @@ morgan.token("customBody", function (req, res) {
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :customBody"));
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  Person.find({}).then((persons) => res.json(persons));
 });
 
 app.get("/api/persons/:id", (req, res) => {
