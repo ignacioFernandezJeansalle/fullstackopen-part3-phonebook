@@ -40,20 +40,59 @@ morgan.token("customBody", function (req, res) {
 });
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :customBody"));
 
-app.get("/api/persons", (req, res, next) => {
-  Person.find({})
-    .then((persons) => res.json(persons))
-    .catch((error) => next(error));
-});
+/* ----------------------------------------------------------------------------------------------- */
 
-app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
+app
+  .route("/api/persons")
+  .get((req, res, next) => {
+    Person.find({})
+      .then((persons) => res.json(persons))
+      .catch((error) => next(error));
+  })
+  .post((req, res, next) => {
+    const person = req.body;
 
-  if (!person) return res.status(404).end();
+    if (!person.name) return res.status(400).json({ error: "name is missing" });
 
-  res.json(person);
-});
+    if (!person.number) return res.status(400).json({ error: "number is missing" });
+
+    /* const duplicateName = persons.some((el) => el.name === person.name);
+  if (duplicateName) return res.status(400).json({ error: "name must be unique" }); */
+
+    const newPerson = new Person(person);
+
+    newPerson
+      .save()
+      .then((person) => res.json(person))
+      .catch((error) => next(error));
+  });
+
+app
+  .route("/api/persons/:id")
+  .get((req, res) => {
+    const id = Number(req.params.id);
+    const person = persons.find((person) => person.id === id);
+
+    if (!person) return res.status(404).end();
+
+    res.json(person);
+  })
+  .put((req, res, next) => {
+    const id = req.params.id;
+    const { name, number } = req.body;
+    const updatePerson = { number };
+
+    Person.findByIdAndUpdate(id, updatePerson, { new: true })
+      .then((updatedPerson) => res.json(updatedPerson))
+      .catch((error) => next(error));
+  })
+  .delete((req, res, next) => {
+    const id = req.params.id;
+
+    Person.findByIdAndDelete(id)
+      .then((deletedPerson) => res.json(deletedPerson))
+      .catch((error) => next(error));
+  });
 
 app.get("/info", (req, res) => {
   const numberOfPersons = persons.length;
@@ -64,31 +103,7 @@ app.get("/info", (req, res) => {
     `);
 });
 
-app.post("/api/persons", (req, res, next) => {
-  const person = req.body;
-
-  if (!person.name) return res.status(400).json({ error: "name is missing" });
-
-  if (!person.number) return res.status(400).json({ error: "number is missing" });
-
-  /* const duplicateName = persons.some((el) => el.name === person.name);
-  if (duplicateName) return res.status(400).json({ error: "name must be unique" }); */
-
-  const newPerson = new Person(person);
-
-  newPerson
-    .save()
-    .then((person) => res.json(person))
-    .catch((error) => next(error));
-});
-
-app.delete("/api/persons/:id", (req, res, next) => {
-  const id = req.params.id;
-
-  Person.findByIdAndDelete(id)
-    .then((deletedPerson) => res.json(deletedPerson))
-    .catch((error) => next(error));
-});
+/* ----------------------------------------------------------------------------------------------- */
 
 const errorHandler = (error, req, res, next) => {
   console.error(error.message);
