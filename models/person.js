@@ -8,7 +8,7 @@ console.log("Connecting to MongoDB...");
 
 mongoose
   .connect(url)
-  .then((result) => console.log("Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.log("Error connecting to MongoDB: ", error.message));
 
 const personSchema = new mongoose.Schema({
@@ -21,8 +21,8 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 8,
     validate: {
-      validator: (value) => /\d{2,3}-\d{4,}/.test(value),
-      message: (props) => "Path `number` has an invalid format",
+      validator: (value) => /^\d{2,3}-\d{4,}/.test(value),
+      message: () => "Path `number` has an invalid format",
     },
     required: true,
   },
