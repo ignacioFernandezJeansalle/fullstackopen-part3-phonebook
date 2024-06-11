@@ -77,13 +77,12 @@ app.post("/api/persons", (req, res) => {
   newPerson.save().then((person) => res.json(person));
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
+app.delete("/api/persons/:id", (req, res, next) => {
+  const id = req.params.id;
 
-  personToDelete = persons.find((person) => person.id === id);
-  persons = persons.filter((person) => person.id !== id);
-
-  res.json(personToDelete);
+  Person.findByIdAndDelete(id)
+    .then((deletedPerson) => res.json(deletedPerson))
+    .catch((error) => next(error));
 });
 
 app.listen(PORT, () => {
