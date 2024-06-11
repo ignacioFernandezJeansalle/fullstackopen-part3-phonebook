@@ -17,7 +17,15 @@ const personSchema = new mongoose.Schema({
     minLength: 3,
     required: true,
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: (value) => /\d{2,3}-\d{4,}/.test(value),
+      message: (props) => "Path `number` has an invalid format",
+    },
+    required: true,
+  },
 });
 
 personSchema.set("toJSON", {
