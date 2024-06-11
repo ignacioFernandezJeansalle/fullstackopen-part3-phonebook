@@ -32,4 +32,4 @@ Web service phonebook => https://fullstackopen-backend-phonebook.onrender.com/
 - [x] 3.19 => d: Validación y ESLint
 - [x] 3.20 => d: Validación y ESLint
 - [x] 3.21 => d: Validación y ESLint
-- [ ] 3.22 => d: Validación y ESLint
+- [x] 3.22 => d: Validación y ESLint
