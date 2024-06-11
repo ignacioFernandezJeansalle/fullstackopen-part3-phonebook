@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(cors());
 
 //app.use(morgan("tiny"));
-morgan.token("customBody", function (req, res) {
+morgan.token("customBody", function (req) {
   if (req.method === "POST") return JSON.stringify({ name: req.body.name, number: req.body.number });
 });
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :customBody"));
