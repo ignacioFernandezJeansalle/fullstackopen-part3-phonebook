@@ -69,13 +69,15 @@ app
 
 app
   .route("/api/persons/:id")
-  .get((req, res) => {
-    const id = Number(req.params.id);
-    const person = persons.find((person) => person.id === id);
+  .get((req, res, next) => {
+    const id = req.params.id;
 
-    if (!person) return res.status(404).end();
-
-    res.json(person);
+    Person.findById(id)
+      .then((person) => {
+        if (!person) return res.status(404).end();
+        res.json(person);
+      })
+      .catch((error) => next(error));
   })
   .put((req, res, next) => {
     const id = req.params.id;
